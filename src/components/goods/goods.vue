@@ -52,6 +52,11 @@ import shopcart from '../shopcart/shopcart'
 import cartcontrol from '../cartcontrol/cartcontrol'
 const err_ok=0
 export default {
+	props:{
+		seller:{
+			type:Object
+		}
+	},
 	components:{
 		classmap,
 		shopcart,
@@ -62,7 +67,6 @@ export default {
   		goods:[],
   		scrollY:0,
   		listHeight:[],
-      seller:{}
   	}
   },
   computed:{
@@ -140,11 +144,11 @@ export default {
   		let el=foodlist[index]
   		this.foodScroll.scrollToElement(el, 300)
   	},
-    setseller(seller){
-      console.log(seller);
-      this.seller=seller;
+    // setseller(seller){
+    //   console.log(seller);
+    //   this.seller=seller;
 
-    },
+    // },
     addFood(target){
         this._drop(target);
     },

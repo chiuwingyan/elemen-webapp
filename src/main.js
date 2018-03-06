@@ -14,24 +14,22 @@ Vue.use(VueRouter)
 Vue.use(VueResource)
 window.evenBus=new Vue();
 const routes=[
-{
-	path:'/',
-	redirect:'/goods'
-
-},
-{
-	path:'/goods/',
-	component:goods,
-	props: true
-},
-{
-	path:'/rating',
-	component:rating
-},
-{
-	path:'/seller',
-	component:seller
-}
+		    {
+				path:'/',
+				redirect:'/goods'
+			},
+			{
+				path: '/goods',
+				component: goods
+			},
+			{
+				path: '/rating',
+				component: rating
+			},
+			{
+				path: '/seller',
+				component: seller
+			}
 ]
 const router=new VueRouter({
 	linkActiveClass:'active',

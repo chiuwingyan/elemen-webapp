@@ -3,7 +3,7 @@
     <v-header :seller="seller"></v-header>
    <div class="tab border-1px">
   <div class="tab-item">
-        <router-link to="/goods/">商品</router-link>
+        <router-link to="goods">商品</router-link>
       </div>
       <div class="tab-item">
         <router-link to="/rating">评论</router-link>
@@ -14,7 +14,7 @@
     </div>
      <div class="content">
        <keep-alive>
-       <router-view></router-view>
+       <router-view :seller="seller"></router-view>
        </keep-alive>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
       res=res.body
       if(res.errno===err_ok){
         this.seller=res.data
-         evenBus.$emit('seller',this.seller) 
+         //evenBus.$emit('seller',this.seller) 
       }
     })
   },
