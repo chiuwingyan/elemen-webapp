@@ -24,3 +24,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 已完成商品列表、添加购物车的基本模块还有评论模块和商家信息模块等
 
 部分截图：
+![Alt text](https://github.com/chiuwingyan/elemen-webapp/blob/master/src/components/goods/1.png)
+![Alt text](https://github.com/chiuwingyan/elemen-webapp/blob/master/src/components/goods/2.png)
+![Alt text](https://github.com/chiuwingyan/elemen-webapp/blob/master/src/components/goods/3.png)
