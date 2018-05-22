@@ -16,7 +16,7 @@
      		<li v-for="items in goods" class="food-list" ref="foodlist">
      			<h1 class="title">{{items.name}}</h1>
      			<ul>
-     			<li v-for="food in items.foods" class="food-item border-1px">
+     			<li v-for="food in items.foods" class="food-item border-1px" @click="selectFood(food,$event)">
      				<div class="icon">
      					<img :src="food.icon">
      				</div>
@@ -40,7 +40,8 @@
      	</ul>
      </div>
      <shopcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice" :selectFoods="selectFoods" ref="shopcart"></shopcart>
-    </div>
+     <Food ref="food" :food="selectedFood"></Food>
+	</div>
    
   
 </template>
@@ -50,6 +51,7 @@ import classmap from '../classmap/classmap'
 import 	BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart'
 import cartcontrol from '../cartcontrol/cartcontrol'
+import Food from '../food/food'
 const err_ok=0
 export default {
 	props:{
@@ -60,13 +62,15 @@ export default {
 	components:{
 		classmap,
 		shopcart,
-    cartcontrol
+    cartcontrol,
+	Food
 	},
    data(){
   	return{
   		goods:[],
   		scrollY:0,
   		listHeight:[],
+		selectedFood:{}
   	}
   },
   computed:{
@@ -96,7 +100,7 @@ export default {
      evenBus.$on('seller',this.setseller)
   	this.$http.get('/api/goods').then((response)=>{
   		response=response.body
-  		console.log(this)
+  		//console.log(this)
   		if(response.errno===err_ok){
 
   			this.goods=response.data
@@ -117,9 +121,11 @@ export default {
         click:true,
   			probeType: 3
   		});
-  		this.foodScroll.on('scroll',(pos)=>{  //pos.y获取当前滚动的坐标，向上滚动为正值
+  		this.foodScroll.on('scroll',(pos)=>{  //pos.y获取当前滚动的坐标，向上滚动为负值
+		 // console.log(pos.y);
   			if(pos.y<=0){
-  				this.scrollY=Math.abs(Math.round(pos.y))
+  				this.scrollY=Math.abs(Math.round(pos.y));
+				
   			}
   		})
   	},
@@ -135,6 +141,14 @@ export default {
   		}
   		
   	},
+	selectFood(food,event){
+		if(!event._constructed){  //针对bscrooll,当$event._constructed存在时,则为自己派发的属性。pc端的点击事件会执行两次，有一次是浏览器的默认事件，因此我们要通过该方法阻止默认事件。
+  			return;
+  		}
+		this.selectedFood=food;
+		console.log(this.$refs.food);
+		this.$refs.food.show();
+	},
   	selectMenu(index,event){
   		
   		if(!event._constructed){  //针对bscrooll,当$event._constructed存在时,则为自己派发的属性。pc端的点击事件会执行两次，有一次是浏览器的默认事件，因此我们要通过该方法阻止默认事件。
