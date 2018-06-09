@@ -36,6 +36,22 @@
                 <h1 class="title">商品评价</h1>
                 <ratingselect :desc="desc" :onlyContent="onlyContent" :ratings="food.ratings" 
                 :selectType="selectType" @select="select" @toggleContent="toggleContent"></ratingselect>
+                <div class="rating-wrapper">
+                <ul v-if="food.ratings&&food.ratings.length">
+                  <li v-for="(rating,index) in food.ratings" class="rating-item border-1px" v-show="needShow(rating.rateType,rating.text)"
+                  :key="index">
+                    <div class="user">
+                  <span class="name">{{rating.username}}</span>
+                  <img class="avatar" width="12" height="12" :src="rating.avatar">
+                </div>
+                <div class="time">{{rating.rateTime | formatDate}}</div>
+                <p class="text">
+                  <span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>{{rating.text}}
+                </p>
+                  </li>
+                </ul>
+                  <div v-else class="no-rating" >暂无评价</div> 
+                </div>
             </div>
         </div>
     </div>
@@ -72,6 +88,20 @@ export default {
         }
         
     },
+    filters:{
+      formatDate(time){
+        let date=new Date(time),
+            year=date.getFullYear(),
+            month=`0${date.getMonth()}`,
+            day=`0${date.getDate()}`,
+            hour=`0${date.getHours()}`,
+            minute=`0${date.getMinutes()}`,
+            second=`0${date.getSeconds()}`;
+      return `${year}-${month.substring(month.length-2, month.length)}-${day.substring(day.length-2, day.length)} 
+      ${hour.substring(hour.length-2, hour.length)}:${minute.substring(minute.length-2, minute.length)}:${second.substring(second.length-2, second.length)}`
+        
+      }
+    },
     methods:{
         show(){
         this.showFlag=true;
@@ -85,6 +115,16 @@ export default {
             }
         })
     },
+    needShow(type, text) {
+        if (this.onlyContent && !text) {
+          return false;
+        }
+        if (this.selectType === ALL) {
+          return true;
+        } else {
+          return type === this.selectType;
+        }
+      },
         hide(){
             this.showFlag=false;
         },
@@ -101,7 +141,8 @@ export default {
                 });
         },
         toggleContent(){
-            this.toggleContent=!this.toggleContent;
+          console.log(this.onlyleContent)
+            this.onlyContent=!this.onlyContent;
             this.$nextTick(() => {
           this.scroll.refresh();
                 });
@@ -254,7 +295,6 @@ export default {
               color: rgb(0, 160, 220)
             .icon-thumb_down
               color: rgb(147, 153, 159)
-
         .no-rating
           padding: 16px 0
           font-size: 12px

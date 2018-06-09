@@ -36,16 +36,16 @@ export default {
       },
       onlyContent:{
           type:Boolean,
-          defalut:false
+          default:false
       },
       desc:{
           type:Object,
-          defalut(){
-              return {
-                  all:'全部',
-                  positive:'满意',
-                  negative:'不满意'
-              }
+          default(){
+            return{
+                all:'全部',
+                positive:'满意',
+                negative:'不满意'
+            } 
           } 
       }
   },

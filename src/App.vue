@@ -21,13 +21,20 @@
 </template>
 
 <script>
-import header from './components/header/header'
+import header from './components/header/header';
+import {urlParse} from './common/js/utils';
+
 const err_ok=0
 export default {
   name: 'app',
   data(){
     return {
-      seller:{}
+      seller:{
+       id: (() => {
+        let queryParam = urlParse();
+        return queryParam.id;
+      })()
+      }
     }
   },
   components:{
@@ -36,11 +43,10 @@ export default {
   created(){
     //var date=new Date()
     //var timer=date.getTime().toString()
-   this.$http.get('/api/seller').then((res)=>{
+   this.$http.get('/api/seller?id='+this.seller.id).then((res)=>{
       res=res.body
       if(res.errno===err_ok){
-        this.seller=res.data
-         //evenBus.$emit('seller',this.seller) 
+       this.seller=Object.assign({},this.seller,res.data)
       }
     })
   },
